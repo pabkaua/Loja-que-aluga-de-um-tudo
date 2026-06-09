@@ -90,7 +90,7 @@ Referência:
 
 https://github.com/iuricode/padroes-de-commits
 
-### Exemplos
+### Exemplos:
 
 ```text
 feat: adiciona cadastro de produtos
