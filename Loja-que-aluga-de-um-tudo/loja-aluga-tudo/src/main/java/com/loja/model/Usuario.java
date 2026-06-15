@@ -1,31 +1,22 @@
 package com.loja.model;
 
-import java.util.UUID;
-
 public abstract class Usuario {
 
-    private final String id;
+    private String id;
     private String nome;
     private String login;
     private String senha;
     private boolean ativo;
 
-    protected Usuario(String nome, String login, String senha) {
-        this.id = UUID.randomUUID().toString();
+    public Usuario(String id, String nome, String login, String senha) {
+        this.id = id;
         this.nome = nome;
         this.login = login;
         this.senha = senha;
         this.ativo = true;
     }
 
-    public void arquivarUsuario() {
-        this.ativo = false;
-    }
-
-    public void reativarUsuario() {
-        this.ativo = true;
-    }
-
+    public abstract String getPerfil();
     public String getId() {
         return id;
     }
@@ -42,12 +33,23 @@ public abstract class Usuario {
         return ativo;
     }
 
-    public void atualizarDados(String nome, String login) {
+    public void setId(String id){
+        this.id = id;
+    }
+
+    public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public void setLogin(String login) {
         this.login = login;
     }
 
-    public void alterarSenha(String novaSenha) {
-        this.senha = novaSenha;
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
     }
 }

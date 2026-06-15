@@ -4,16 +4,19 @@ public class Funcionario extends Usuario {
 
     private String cargo;
 
-    public Funcionario(String nome, String login, String senha, String cargo) {
-        super(nome, login, senha);
+    public Funcionario(String id, String nome, String login, String senha, String cargo) {
+        super(id, nome, login, senha);
         this.cargo = cargo;
+    }
+    public String getPerfil(){
+        return "FUNCIONARIO";
     }
 
     public String getCargo() {
         return cargo;
     }
 
-    public void promoverPara(String novoCargo) {
-        this.cargo = novoCargo;
+    public void setCargo(String cargo){
+        this.cargo = cargo;
     }
 }
