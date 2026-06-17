@@ -2,15 +2,19 @@ package com.loja.model;
 
 public class Multa {
     private String id;
-    private double valor;
+    private ContratoAluguel contrato;
     private String motivo;
-    private boolean paga;
+    private double valor;
+    private int diasAtraso;
+    private String status;
 
-    public Multa(String id, double valor, String motivo){
+    public Multa(String id, ContratoAluguel contrato, String motivo, double valor, int diasAtraso, String status){
         this.id = id;
-        this.valor = valor;
+        this.contrato = contrato;
         this.motivo = motivo;
-        this.paga = false;
+        this.valor = valor;
+        this.diasAtraso = diasAtraso;
+        this.status = status;
     }
 
     public String getId(){
@@ -21,12 +25,12 @@ public class Multa {
         this.id = id;
     }
 
-    public double getValor(){
-        return valor;
+    public ContratoAluguel getContrato(){
+        return contrato;
     }
 
-    public void setValor(double valor){
-        this.valor = valor;
+    public void setContrato(ContratoAluguel contrato){
+        this.contrato = contrato;
     }
 
     public String getMotivo(){
@@ -37,11 +41,27 @@ public class Multa {
         this.motivo = motivo;
     }
 
-    public boolean isPaga(){
-        return paga;
+    public double getValor(){
+        return valor;
     }
 
-    public void setPaga(boolean paga){
-        this.paga = paga;
+    public void setValor(double valor){
+        this.valor = valor;
+    }
+
+    public int getDiasAtraso(){
+        return diasAtraso;
+    }
+
+    public void setDiasAtras(int diasAtraso){
+        this.diasAtraso = diasAtraso;
+    }
+
+    public String getStatus(){
+        return status;
+    }
+
+    public void setStatus(String status){
+        this.status = status;
     }
 }
