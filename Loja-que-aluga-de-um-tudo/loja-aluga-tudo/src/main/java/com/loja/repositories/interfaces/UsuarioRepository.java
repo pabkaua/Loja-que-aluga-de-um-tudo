@@ -2,16 +2,25 @@ package com.loja.repositories.interfaces;
 
 import com.loja.model.Usuario;
 import java.util.List;
+import java.util.Map;
 
 public interface UsuarioRepository {
 
     void salvar(Usuario usuario);
 
-    Usuario buscarPorId(String id);
+    Usuario buscar(String id);
 
     Usuario buscarPorEmail(String email);
 
-    List<Usuario> listar();
+    Map<String, Usuario> listar();
 
-    void deletar(String id);
+    Map<String, Usuario> listarPorPerfil(String perfil);
+
+    boolean atualizar(Usuario usuario);
+
+    boolean deletar(String id);
+
+    void carregarDados();
+
+    void salvarDados();
 }
