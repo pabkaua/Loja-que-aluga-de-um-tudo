@@ -25,6 +25,10 @@ public class ContratoAluguel {
         this.historico = false;
     }
 
+    public ContratoAluguel(){
+        //construtor vazio (casca para MultaPersistencia)
+    }
+
     //getters:
     public String getId(){
         return id;
