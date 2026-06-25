@@ -2,7 +2,7 @@ package com.loja.repositories;
 import com.loja.model.Categoria;
 import com.loja.model.Fornecedor;
 import com.loja.model.Item;
-import com.loja.repositories.interfaces.ItemRepository;
+import com.loja.repositories.interfaces.IItemRepository;
 
 import java.io.*;
 import java.math.BigDecimal;
@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class ItemPersistenciaCSV implements ItemRepository {
+public class ItemPersistenciaCSV implements IItemRepository {
     private String caminhoArquivo;
     private Map<String, Item> itens;
 
@@ -51,7 +51,7 @@ public class ItemPersistenciaCSV implements ItemRepository {
 
     // lista os itens com base em status, categoria ou fornecedor
     @Override
-    public Map<String, Item> listarPorStatus(String status) {
+    public Map<String, Item> listar(Fornecedor fornecedor) {
         return this.itens.entrySet().stream()
                 // filtra os itens por status (ignorando miuscula e minuscula)
                 .filter(valorfiltrado -> valorfiltrado.getValue().getStatus().equalsIgnoreCase(status))
@@ -60,7 +60,7 @@ public class ItemPersistenciaCSV implements ItemRepository {
     }
 
     @Override
-    public Map<String, Item> listarPorCategoria(String categoriaId) {
+    public Map<String, Item> listar(Categoria categoria) {
         return this.itens.entrySet().stream()
                 // filtra os itens por categoria com base no id
                 .filter(valorfiltrado -> valorfiltrado.getValue().getCategoria().getId().equals(categoriaId))

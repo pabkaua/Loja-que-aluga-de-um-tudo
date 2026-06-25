@@ -1,14 +1,14 @@
 package com.loja.repositories;
 
 import com.loja.model.Usuario;
-import com.loja.repositories.interfaces.UsuarioRepository;
+import com.loja.repositories.interfaces.IUsuarioRepository;
 
 import java.io.*;
 import java.util.Collections;
 import java.util.stream.*;
 import java.util.Map;
 
-public class UsuarioPersistenciaCSV implements UsuarioRepository {
+public class UsuarioPersistenciaCSV implements IUsuarioRepository {
 
     private String caminhoArquivo;
     private Map<String, Usuario> usuarios;
@@ -45,7 +45,7 @@ public class UsuarioPersistenciaCSV implements UsuarioRepository {
     }
 
     @Override
-    public Map<String, Usuario> listarPorPerfil(String perfil){
+    public Map<String, Usuario> listar(String perfil){
         return this.usuarios.entrySet().stream()
                 .filter(entry -> entry.getValue().getPerfil().equalsIgnoreCase(perfil))
                 .collect(Collectors.toMap(

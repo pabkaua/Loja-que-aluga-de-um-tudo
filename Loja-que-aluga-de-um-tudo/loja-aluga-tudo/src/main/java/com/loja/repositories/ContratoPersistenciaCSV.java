@@ -3,17 +3,16 @@
     import com.loja.model.Cliente;
     import com.loja.model.ContratoAluguel;
     import com.loja.model.Item;
-    import com.loja.repositories.interfaces.ContratoRepository;
+    import com.loja.repositories.interfaces.IContratoRepository;
 
     import java.io.*;
-    import java.math.BigDecimal;
     import java.time.LocalDate;
     import java.util.Collections;
     import java.util.HashMap;
     import java.util.Map;
     import java.util.stream.Collectors;
 
-    public class ContratoPersistenciaCSV implements ContratoRepository {
+    public class ContratoPersistenciaCSV implements IContratoRepository {
 
         private String caminhoArquivo;
         private Map<String, ContratoAluguel> contratos;
@@ -40,14 +39,14 @@
         }
 
         @Override
-        public Map<String, ContratoAluguel> listarPorCliente(String clienteId) {
+        public Map<String, ContratoAluguel> listar(Cliente cliente) {
             return this.contratos.entrySet().stream()
-                    .filter(valorFiltrado -> valorFiltrado.getValue().getCliente().equals(clienteId))
+                    .filter(valorFiltrado -> valorFiltrado.getValue().getCliente().equals(cliente))
                     .collect(Collectors.toMap(Map.Entry::getKey, valorFiltrado -> valorFiltrado.getValue()));
         }
 
         @Override
-        public Map<String, ContratoAluguel> listarPorStatus(String status) {
+        public Map<String, ContratoAluguel> listar(String status) {
             return this.contratos.entrySet().stream()
                     .filter(valorFiltrado -> valorFiltrado.getValue().getStatus().equals(status))
                     .collect(Collectors.toMap(Map.Entry::getKey, valorFiltrado -> valorFiltrado.getValue()));

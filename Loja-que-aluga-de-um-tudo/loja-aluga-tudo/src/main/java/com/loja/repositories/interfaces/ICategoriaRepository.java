@@ -2,7 +2,7 @@ package com.loja.repositories.interfaces;
 import com.loja.model.Categoria;
 import java.util.Map;
 
-public interface CategoriaRepository {
+public interface ICategoriaRepository {
     public void salvar(Categoria categoria);
     public Categoria buscar(String id);
 

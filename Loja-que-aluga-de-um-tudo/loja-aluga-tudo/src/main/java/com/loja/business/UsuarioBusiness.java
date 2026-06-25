@@ -1,14 +1,14 @@
 package com.loja.business;
 
 import com.loja.model.Usuario;
-import com.loja.repositories.interfaces.UsuarioRepository;
+import com.loja.repositories.interfaces.IUsuarioRepository;
 
 import java.util.List;
 
 public class UsuarioBusiness {
-    private UsuarioRepository usuarioRepository;
+    private IUsuarioRepository usuarioRepository;
 
-    public UsuarioBusiness(UsuarioRepository repo) {
+    public UsuarioBusiness(IUsuarioRepository repo) {
         this.usuarioRepository = repo;
     }
 

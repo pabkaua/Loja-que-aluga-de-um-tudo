@@ -2,12 +2,12 @@ package com.loja.business;
 
 import com.loja.model.ContratoAluguel;
 import com.loja.model.Item;
-import com.loja.repositories.interfaces.ContratoRepository;
+import com.loja.repositories.interfaces.IContratoRepository;
 
 import java.util.List;
 
 public class ContratoBusiness {
-    private ContratoRepository contratoRepository;
+    private IContratoRepository contratoRepository;
 
         private ItemService itemService;
         private UsuarioService usuarioService;

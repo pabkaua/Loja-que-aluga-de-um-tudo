@@ -2,7 +2,7 @@ package com.loja.business;
 
 import com.loja.model.ContratoAluguel;
 import com.loja.model.Multa;
-import com.loja.repositories.interfaces.MultaRepository;
+import com.loja.repositories.interfaces.IMultaRepository;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -11,10 +11,10 @@ import java.util.List;
 
 public class MultaBusiness {
 
-    private MultaRepository multaRepository;
+    private IMultaRepository multaRepository;
     private static final BigDecimal valorTaxaDiaria = new BigDecimal ("5.50");
 
-    public MultaBusiness(MultaRepository multaRepository){
+    public MultaBusiness(IMultaRepository multaRepository){
         this.multaRepository = multaRepository;
     }
 
@@ -66,7 +66,7 @@ public class MultaBusiness {
         if (clienteId == null || clienteId.trim().isEmpty()){
             throw new RuntimeException("ID do cliente inválido para a consulta de listagem.");
         }
-        return multaRepository.listarPorCliente(clienteId);
+        return multaRepository.listar(clienteId);
     }
 
     public List<Multa> listar(){

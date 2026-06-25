@@ -1,12 +1,12 @@
 package com.loja.business;
 
 import com.loja.model.Fornecedor;
-import com.loja.repositories.interfaces.FornecedorRepository;
+import com.loja.repositories.interfaces.IFornecedorRepository;
 
 public class FornecedorBusiness {
-    private FornecedorRepository fornecedorRepository;
+    private IFornecedorRepository fornecedorRepository;
 
-    public FornecedorBusiness(FornecedorRepository fornecedorRepository) {
+    public FornecedorBusiness(IFornecedorRepository fornecedorRepository) {
         this.fornecedorRepository = fornecedorRepository;
     }
 
