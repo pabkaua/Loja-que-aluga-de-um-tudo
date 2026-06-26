@@ -4,12 +4,13 @@ import com.loja.model.Usuario;
 import com.loja.repositories.interfaces.IUsuarioRepository;
 
 import java.util.List;
+import java.util.Map;
 
 public class UsuarioBusiness {
     private IUsuarioRepository usuarioRepository;
 
-    public UsuarioBusiness(IUsuarioRepository repo) {
-        this.usuarioRepository = repo;
+    public UsuarioBusiness(IUsuarioRepository repository) {
+        this.usuarioRepository = repository;
     }
 
     public void cadastrar(Usuario usuario) {
@@ -20,7 +21,7 @@ public class UsuarioBusiness {
     }
 
     public Usuario buscarPorId(String id) {
-        Usuario usuario = usuarioRepository.buscarPorId(id);
+        Usuario usuario = usuarioRepository.buscar(id);
         if (usuario == null) {
             throw new RuntimeException("Usuário não encontrado: " + id);
         }
@@ -35,12 +36,23 @@ public class UsuarioBusiness {
         return usuario;
     }
 
-    public List<Usuario> listar() {
+    public Map<String, Usuario> listar() {
         return usuarioRepository.listar();
     }
 
+    public Map<String, Usuario> listarPorPerfil(String perfil) {
+        Map<String, Usuario> todos = usuarioRepository.listar();
+        Map<String, Usuario> filtrados = new java.util.HashMap<>();
+        for (Map.Entry<String, Usuario> entry : todos.entrySet()) {
+            if (perfil.equals(entry.getValue().getPerfil())) {
+                filtrados.put(entry.getKey(), entry.getValue());
+            }
+        }
+        return filtrados;
+    }
+
     public void atualizar(String id, Usuario dados) {
-        Usuario existente = usuarioRepository.buscarPorId(id);
+        Usuario existente = usuarioRepository.buscar(id);
         if (existente == null) {
             throw new RuntimeException("Usuário não encontrado: " + id);
         }
@@ -51,7 +63,7 @@ public class UsuarioBusiness {
     }
 
     public void deletar(String id) {
-        if (usuarioRepository.buscarPorId(id) == null) {
+        if (usuarioRepository.buscar(id) == null) {
             throw new RuntimeException("Usuário não encontrado: " + id);
         }
         usuarioRepository.deletar(id);

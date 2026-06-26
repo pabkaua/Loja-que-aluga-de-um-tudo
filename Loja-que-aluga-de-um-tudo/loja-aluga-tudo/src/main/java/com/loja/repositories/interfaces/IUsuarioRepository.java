@@ -14,7 +14,7 @@ public interface IUsuarioRepository {
 
     Map<String, Usuario> listar();
 
-    Map<String, Usuario> listar(String perfil);
+    Map<String, Usuario> listarPorPerfil(String perfil);
 
     boolean atualizar(Usuario usuario);
 
