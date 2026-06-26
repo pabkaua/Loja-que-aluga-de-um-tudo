@@ -6,19 +6,24 @@ public class Multa {
     private String id;
     private ContratoAluguel contrato;
     private String motivo;
+    private BigDecimal valorFixo;
     private BigDecimal valorDiario;
     private BigDecimal valorTotal;
     private int diasAtraso;
     private String status;
 
-    public Multa(String id, ContratoAluguel contrato, String motivo, BigDecimal valorDiario, int diasAtraso, String status){
+    public Multa(String id, ContratoAluguel contrato, String motivo, BigDecimal valorFixo, BigDecimal valorDiario, int diasAtraso, String status){
         this.id = id;
         this.contrato = contrato;
         this.motivo = motivo;
+        this.valorFixo = valorFixo;
         this.valorDiario = valorDiario;
         this.diasAtraso = diasAtraso;
         this.status = status;
         this.valorTotal = valorDiario.multiply(BigDecimal.valueOf(diasAtraso)); // multiplica o bigdecimal por um int
+
+        BigDecimal totalDiario = valorDiario.multiply(BigDecimal.valueOf(diasAtraso));
+        this.valorTotal = valorFixo.add(totalDiario);
     }
 
     public String getId(){
@@ -29,6 +34,9 @@ public class Multa {
     }
     public String getMotivo(){
         return motivo;
+    }
+    public BigDecimal getValorFixo() {
+        return valorFixo;
     }
     public BigDecimal getValorDiario() {
         return valorDiario;
@@ -51,6 +59,9 @@ public class Multa {
     }
     public void setMotivo(String motivo){
         this.motivo = motivo;
+    }
+    public void setValorFixo(BigDecimal valorFixo){
+        this.valorFixo = valorFixo;
     }
     public void setValorDiario(BigDecimal valorDiario) {
         this.valorDiario = valorDiario;

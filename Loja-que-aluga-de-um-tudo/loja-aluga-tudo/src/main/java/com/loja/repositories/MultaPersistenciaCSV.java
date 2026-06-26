@@ -4,7 +4,6 @@ import com.loja.model.Cliente;
 import com.loja.model.ContratoAluguel;
 import com.loja.model.Multa;
 import com.loja.repositories.interfaces.IMultaRepository;
-import com.loja.repositories.interfaces.MultaRepository;
 
 import java.io.*;
 import java.math.BigDecimal;
@@ -117,18 +116,19 @@ public class MultaPersistenciaCSV implements IMultaRepository {
             while (linha != null) {
                 String[] dados = linha.split(";");
 
-                if (dados.length >= 7) {
+                if (dados.length >= 8) {
                     String id = dados[0];
                     String contratoId = dados[1];
                     String motivo = dados[2];
-                    BigDecimal valorDiario = new BigDecimal(dados[3]);
-                    int diasAtraso = Integer.parseInt(dados[5]);
-                    String status = dados[6];
+                    BigDecimal valorFixo = new BigDecimal(dados[3]);
+                    BigDecimal valorDiario = new BigDecimal(dados[4]);
+                    int diasAtraso = Integer.parseInt(dados[6]);
+                    String status = dados[7];
 
                     ContratoAluguel contrato = new ContratoAluguel();
                     contrato.setId(contratoId);
 
-                    Multa multa = new Multa(id, contrato, motivo, valorDiario, diasAtraso, status);
+                    Multa multa = new Multa(id, contrato, motivo, valorFixo, valorDiario, diasAtraso, status);
                     this.multas.put(multa.getId(), multa);
                 }
                 linha = leitor.readLine();
@@ -141,13 +141,14 @@ public class MultaPersistenciaCSV implements IMultaRepository {
     @Override
     public void salvarDados() {
         try (BufferedWriter escritor = new BufferedWriter(new FileWriter(this.caminhoArquivo))) {
-            escritor.write("id;contratoId;motivo;valorDiario;valorTotal;diasAtraso;status");
+            escritor.write("id;contratoId;motivo;valorFixo;valorDiario;valorTotal;diasAtraso;status");
             escritor.newLine();
 
             for (Multa multa : this.multas.values()) {
                 String linha = multa.getId() + ";" +
                                (multa.getContrato() != null ? multa.getContrato().getId() : "null") + ";" +
                                multa.getMotivo() + ";" +
+                               multa.getValorFixo() + ";" +
                                multa.getValorDiario() + ";" +
                                multa.getValorTotal() + ";" +
                                multa.getDiasAtraso() + ";" +

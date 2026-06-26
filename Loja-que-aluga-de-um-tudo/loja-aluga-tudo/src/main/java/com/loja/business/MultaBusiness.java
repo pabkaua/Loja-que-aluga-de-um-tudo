@@ -12,6 +12,7 @@ import java.util.List;
 public class MultaBusiness {
 
     private IMultaRepository multaRepository;
+    private static final BigDecimal valorFixoPenalidade = new BigDecimal("20.00");
     private static final BigDecimal valorTaxaDiaria = new BigDecimal ("5.50");
 
     public MultaBusiness(IMultaRepository multaRepository){
@@ -32,7 +33,7 @@ public class MultaBusiness {
         long dias = ChronoUnit.DAYS.between(contrato.getDataPrevDevolucao(), contrato.getDataEfetivaDevolucao());
         int diasAtraso = (int) dias;
 
-        Multa novaMulta = new Multa(null, contrato, "Atraso na devolução do item", valorTaxaDiaria, diasAtraso, "PENDENTE");
+        Multa novaMulta = new Multa(null, contrato, "Atraso na devolução do item", valorFixoPenalidade, valorTaxaDiaria, diasAtraso, "PENDENTE");
 
         multaRepository.salvar(novaMulta);
 
@@ -43,16 +44,26 @@ public class MultaBusiness {
         if (contrato == null){
             return 0.0;
         }
-        long diasAtraso = ChronoUnit.DAYS.between(contrato.getDataPrevDevolucao(), LocalDate.now());
+        LocalDate dataFinalCalculo = contrato.getDataEfetivaDevolucao() != null ? 
+                                     contrato.getDataEfetivaDevolucao() : LocalDate.now();
 
-        return diasAtraso > 0 ? valorTaxaDiaria.multiply(BigDecimal.valueOf(diasAtraso)).doubleValue() : 0.0;
+        long diasAtraso = ChronoUnit.DAYS.between(contrato.getDataPrevDevolucao(), dataFinalCalculo);
+
+        if (diasAtraso <= 0){
+            return 0.0;
+        }
+
+        BigDecimal totalDiario = valorTaxaDiaria.multiply(BigDecimal.valueOf(diasAtraso));
+        BigDecimal resultadoFinal = valorFixoPenalidade.add(totalDiario);
+
+        return resultadoFinal.doubleValue();
     }
 
     public void quitar(String multaId){
         if (multaId == null || multaId.trim().isEmpty()){
             throw new RuntimeException("ID da multa inválido para operação de quitação.");
         }
-        Multa existente = multaRepository.buscarPorId(multaId);
+        Multa existente = multaRepository.buscar(multaId);
 
         if (existente == null){
             throw new RuntimeException("Multa não encontrada para o ID: " + multaId);
@@ -62,14 +73,23 @@ public class MultaBusiness {
         multaRepository.salvar(existente);
     }
 
-    public List<Multa> listarPorCliente(String clienteId){
-        if (clienteId == null || clienteId.trim().isEmpty()){
+    public List<Multa> listarPorCliente(String clienteId) {
+        if (clienteId == null || clienteId.trim().isEmpty()) {
             throw new RuntimeException("ID do cliente inválido para a consulta de listagem.");
         }
-        return multaRepository.listar(clienteId);
-    }
+        
+        List<Multa> multasFiltradas = new java.util.ArrayList<>();
 
-    public List<Multa> listar(){
-        return multaRepository.listar();
+        for (Multa multa : multaRepository.listar().values()) {
+        
+            if (multa.getContrato() != null 
+                    && multa.getContrato().getCliente() != null 
+                    && clienteId.equals(multa.getContrato().getCliente().getId())) {
+    
+                multasFiltradas.add(multa);
+            }
+        }
+
+        return multasFiltradas;
     }
 }
