@@ -1,9 +1,0 @@
-package com.loja.business.interfaces;
-
-import com.loja.model.ContratoAluguel;
-import com.loja.model.Multa;
-import java.util.List;
-
-public interface IMultaBusiness{
-    
-}

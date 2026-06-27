@@ -2,13 +2,14 @@ package com.loja.business;
 
 import com.loja.model.ContratoAluguel;
 import com.loja.model.Multa;
-import com.loja.model.Cliente;
 import com.loja.repositories.interfaces.IMultaRepository;
+import com.loja.business.interfaces.IMultaBusiness;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MultaBusiness implements IMultaBusiness{
 
@@ -20,7 +21,7 @@ public class MultaBusiness implements IMultaBusiness{
         this.multaRepository = multaRepository;
     }
 
-    public Multa aplicar(ContratoAluguel contrato){
+    public void aplicar(ContratoAluguel contrato){
         if (contrato == null){
             throw new RuntimeException("Não é possível aplicar multa para um contrato nulo.");
         }
@@ -37,8 +38,59 @@ public class MultaBusiness implements IMultaBusiness{
         Multa novaMulta = new Multa(null, contrato, "Atraso na devolução do item", valorFixoPenalidade, valorTaxaDiaria, diasAtraso, "PENDENTE");
 
         multaRepository.salvar(novaMulta);
+    }
 
-        return novaMulta;
+    @Override
+    public void quitar(String multaId){
+        if (multaId == null || multaId.trim().isEmpty()){
+            throw new RuntimeException("ID da multa inválido para operação de quitação.");
+        }
+        Multa existente = multaRepository.buscar(multaId);
+
+        if (existente == null){
+            throw new RuntimeException("Multa não encontrada para o ID: " + multaId);
+        }
+
+        existente.setStatus("QUITADA");
+        multaRepository.salvar(existente);
+    }
+
+    @Override
+    public Map<String, Multa> listarPorCliente(String clienteId) {
+        if (clienteId == null || clienteId.trim().isEmpty()) {
+            throw new RuntimeException("ID do cliente inválido para a consulta.");
+        }
+        
+        Map<String, Multa> multasFiltradas = new HashMap<>();
+
+        for (Multa multa : multaRepository.listar().values()) {
+            if (multa.getContrato() != null 
+                    && multa.getContrato().getCliente() != null 
+                    && clienteId.equals(multa.getContrato().getCliente().getId())) {
+    
+                multasFiltradas.put(multa.getId(), multa);
+            }
+        }
+
+        return multasFiltradas;
+    }
+
+    @Override
+    public Map<String, Multa> listar() {
+        return multaRepository.listar();
+    }
+
+    @Override
+    public void deletarMulta(String id) {
+        if (id == null || id.trim().isEmpty()) {
+            throw new RuntimeException("ID inválido para exclusão da multa.");
+        }
+        
+        boolean deletado = multaRepository.deletar(id);
+        
+        if (!deletado) {
+            throw new RuntimeException("Não foi possível deletar: Multa não encontrada com o ID: " + id);
+        }
     }
 
     public double calcularAtraso(ContratoAluguel contrato){
@@ -60,20 +112,6 @@ public class MultaBusiness implements IMultaBusiness{
         return resultadoFinal.doubleValue();
     }
 
-    public void quitar(String multaId){
-        if (multaId == null || multaId.trim().isEmpty()){
-            throw new RuntimeException("ID da multa inválido para operação de quitação.");
-        }
-        Multa existente = multaRepository.buscar(multaId);
-
-        if (existente == null){
-            throw new RuntimeException("Multa não encontrada para o ID: " + multaId);
-        }
-
-        existente.setStatus("QUITADA");
-        multaRepository.salvar(existente);
-    }
-
     public boolean possuiMultaPendente(String clienteId) {
         if (clienteId == null || clienteId.trim().isEmpty()) {
             return false;
@@ -89,25 +127,5 @@ public class MultaBusiness implements IMultaBusiness{
         }
 
         return false; 
-    }
-
-    public List<Multa> listarPorCliente(String clienteId) {
-        if (clienteId == null || clienteId.trim().isEmpty()) {
-            throw new RuntimeException("ID do cliente inválido para a consulta de listagem.");
-        }
-        
-        List<Multa> multasFiltradas = new java.util.ArrayList<>();
-
-        for (Multa multa : multaRepository.listar().values()) {
-        
-            if (multa.getContrato() != null 
-                    && multa.getContrato().getCliente() != null 
-                    && clienteId.equals(multa.getContrato().getCliente().getId())) {
-    
-                multasFiltradas.add(multa);
-            }
-        }
-
-        return multasFiltradas;
     }
 }
