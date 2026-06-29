@@ -20,6 +20,8 @@ public class CategoriaBusiness implements ICategoriaBusiness {
             throw new RuntimeException("Já existe outra categoria com esse ID: " + repo.buscar(c.getId()).getNome());
         } else if (c.getNome() == null || c.getNome().isBlank()) { // se o nome tá ok
             throw new RuntimeException("Não foi possível cadastrar a categoria: Falha no nome");
+        } else if (c.getId() == null || c.getId().isBlank()) { // se o id tá ok
+            throw new RuntimeException("Não foi possível cadastrar a categoria: Falha no ID");
         }
 
         boolean nomeExiste = repo.listar()
