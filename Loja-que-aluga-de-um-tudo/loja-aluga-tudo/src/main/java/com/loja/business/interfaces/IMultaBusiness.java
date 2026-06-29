@@ -15,4 +15,6 @@ public interface IMultaBusiness{
     Map<String, Multa> listar();
 
     void deletarMulta(String Id);
+
+    boolean possuiMultaPendente(String clienteId);
 }

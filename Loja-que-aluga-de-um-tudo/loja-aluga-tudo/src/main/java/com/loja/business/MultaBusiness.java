@@ -111,6 +111,7 @@ public class MultaBusiness implements IMultaBusiness{
         return valorFixoPenalidade.add(totalDiario);
     }
 
+    @Override
     public boolean possuiMultaPendente(String clienteId) {
         if (clienteId == null || clienteId.trim().isEmpty()) {
             return false;
