@@ -1,12 +1,15 @@
 package com.loja.repositories;
 
+import com.loja.model.Administrador;
+import com.loja.model.Cliente;
+import com.loja.model.Funcionario;
 import com.loja.model.Usuario;
 import com.loja.repositories.interfaces.IUsuarioRepository;
 
 import java.io.*;
 import java.util.Collections;
-import java.util.stream.*;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class UsuarioPersistenciaCSV implements IUsuarioRepository {
 
@@ -18,21 +21,21 @@ public class UsuarioPersistenciaCSV implements IUsuarioRepository {
         this.usuarios = usuarios;
     }
 
-    public String getCaminhoArquivo() {return caminhoArquivo;}
-    public void setCaminhoArquivo(String caminhoArquivo) {this.caminhoArquivo = caminhoArquivo;}
+    public String getCaminhoArquivo() { return caminhoArquivo; }
+    public void setCaminhoArquivo(String caminhoArquivo) { this.caminhoArquivo = caminhoArquivo; }
 
     @Override
-    public void salvar(Usuario usuario){
+    public void salvar(Usuario usuario) {
         usuarios.put(usuario.getId(), usuario);
     }
 
     @Override
-    public Usuario buscar(String id){
+    public Usuario buscar(String id) {
         return usuarios.get(id);
     }
 
     @Override
-    public Usuario buscarPorEmail(String email){
+    public Usuario buscarPorEmail(String email) {
         return this.usuarios.values().stream()
                 .filter(usuario -> usuario.getLogin().equalsIgnoreCase(email))
                 .findFirst()
@@ -40,12 +43,12 @@ public class UsuarioPersistenciaCSV implements IUsuarioRepository {
     }
 
     @Override
-    public Map<String, Usuario> listar(){
+    public Map<String, Usuario> listar() {
         return Collections.unmodifiableMap(this.usuarios);
     }
 
     @Override
-    public Map<String, Usuario> listar(String perfil){
+    public Map<String, Usuario> listar(String perfil) {
         return this.usuarios.entrySet().stream()
                 .filter(entry -> entry.getValue().getPerfil().equalsIgnoreCase(perfil))
                 .collect(Collectors.toMap(
@@ -75,30 +78,43 @@ public class UsuarioPersistenciaCSV implements IUsuarioRepository {
     @Override
     public void carregarDados() {
         try (BufferedReader br = new BufferedReader(new FileReader(this.caminhoArquivo))) {
+            br.readLine();
             String linha;
-
-            String cabecalho = br.readLine();
-
             while ((linha = br.readLine()) != null) {
                 if (linha.trim().isEmpty()) continue;
 
-                String[] dados = linha.split(";");
-                if (dados.length >= 5) {
-                    String id = dados[0];
-                    String nome = dados[1];
-                    String login = dados[2];
-                    String senha = dados[3];
-                    String perfil = dados[4];
-                    boolean ativo = Boolean.parseBoolean(dados[5]);
+                String[] dados = linha.split(";", -1);
+                if (dados.length < 6) continue;
 
-                    Usuario usuario = null;
-                    if (perfil.equalsIgnoreCase("ADMIN")) {
-                    } else if (perfil.equalsIgnoreCase("CLIENTE")) {
-                    }
+                String id = dados[0];
+                String nome = dados[1];
+                String login = dados[2];
+                String senha = dados[3];
+                String perfil = dados[4];
+                boolean ativo = Boolean.parseBoolean(dados[5]);
 
-                    if (usuario != null) {
-                        this.usuarios.put(id, usuario);
+                Usuario usuario = null;
+
+                if (perfil.equalsIgnoreCase("ADMINISTRADOR")) {
+                    int nivelAcesso = dados.length > 6 && !dados[6].isEmpty() ? Integer.parseInt(dados[6]) : 1;
+                    String departamento = dados.length > 7 && !dados[7].isEmpty() ? dados[7] : "Geral";
+                    usuario = new Administrador(id, nome, login, senha, nivelAcesso, departamento);
+
+                } else if (perfil.equalsIgnoreCase("FUNCIONARIO")) {
+                    String cargo = dados.length > 6 && !dados[6].isEmpty() ? dados[6] : "Geral";
+                    usuario = new Funcionario(id, nome, login, senha, cargo);
+
+                } else if (perfil.equalsIgnoreCase("CLIENTE")) {
+                    Cliente cliente = new Cliente(id, nome, login, senha);
+                    if (dados.length > 6 && !dados[6].isEmpty()) {
+                        cliente.setInadimplente(Boolean.parseBoolean(dados[6]));
                     }
+                    usuario = cliente;
+                }
+
+                if (usuario != null) {
+                    usuario.setAtivo(ativo);
+                    this.usuarios.put(id, usuario);
                 }
             }
         } catch (IOException e) {
@@ -127,6 +143,4 @@ public class UsuarioPersistenciaCSV implements IUsuarioRepository {
             System.err.println("Erro ao salvar dados no arquivo CSV: " + e.getMessage());
         }
     }
-
-
 }

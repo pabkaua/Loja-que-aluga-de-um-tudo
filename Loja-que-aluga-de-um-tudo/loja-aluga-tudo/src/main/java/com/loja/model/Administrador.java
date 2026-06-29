@@ -1,6 +1,6 @@
 package com.loja.model;
 
-public class Administrador extends Usuario{
+public class Administrador extends Usuario {
 
     private int nivelAcesso;
     private String departamento;
@@ -9,6 +9,12 @@ public class Administrador extends Usuario{
         super(id, nome, login, senha);
         this.nivelAcesso = nivelAcesso;
         this.departamento = departamento;
+    }
+
+    public Administrador(String id, String nome, String login, String senha) {
+        super(id, nome, login, senha);
+        this.nivelAcesso = 1;
+        this.departamento = "Geral";
     }
 
     @Override
