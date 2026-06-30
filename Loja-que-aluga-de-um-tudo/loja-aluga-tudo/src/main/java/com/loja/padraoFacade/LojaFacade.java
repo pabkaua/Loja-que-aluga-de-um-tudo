@@ -94,7 +94,7 @@ public class LojaFacade implements ILojaFacade{
     @Override
     public void atualizarUsuario(String id, Usuario usuario) {
         if (usuario == null) throw new RuntimeException("Não é possível atualizar um usuário nulo");
-        usuarioBusiness.atualizar(id, usuario);
+        usuarioBusiness.atualizar(usuario);
     }
 
     @Override
@@ -102,7 +102,7 @@ public class LojaFacade implements ILojaFacade{
         if (id == null || id.trim().isEmpty()) throw new RuntimeException("ID inválido");
         Usuario usuario = usuarioBusiness.buscarPorId(id);
         usuario.setAtivo(false);
-        usuarioBusiness.atualizar(id, usuario);
+        usuarioBusiness.atualizar(usuario);
     }
 
     /* =========================================================================
