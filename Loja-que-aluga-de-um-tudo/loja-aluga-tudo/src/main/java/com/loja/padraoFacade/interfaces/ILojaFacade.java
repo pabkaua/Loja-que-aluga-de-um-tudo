@@ -9,6 +9,7 @@ public interface ILojaFacade {
     // relatorios
     public String gerarRelatorioItensAlugados();
     public String gerarRelatorioFaturamento(LocalDate inicio, LocalDate fim);
+    public void resolverDependencias();
 
     // usuario
     public void cadastrarCliente(Cliente cliente);

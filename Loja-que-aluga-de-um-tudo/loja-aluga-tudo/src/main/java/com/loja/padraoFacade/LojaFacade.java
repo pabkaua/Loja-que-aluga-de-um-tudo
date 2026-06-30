@@ -28,6 +28,7 @@ public class LojaFacade implements ILojaFacade{
         this.fornecedorBusiness = fornecedorBusiness;
         this.contratoBusiness = contratoBusiness;
         this.multaBusiness = multaBusiness;
+        resolverDependencias();
     }
     /* =========================================================================
      * 1. RELATÓRIOS
@@ -142,54 +143,51 @@ public class LojaFacade implements ILojaFacade{
 
     @Override
     public void cadastrarItem(Item i) {
-        if (i == null) throw new RuntimeException("Não é possível cadastrar um item nulo.");
-        itemBusiness.cadastrarItem(i);
+        itemBusiness.cadastrar(i);
     }
 
     @Override
     public Item buscarItem(String id) {
-        if (id == null || id.trim().isEmpty()) throw new RuntimeException("ID inválido para busca de item.");
-        return itemBusiness.buscarItem(id);
+        return itemBusiness.buscar(id);
     }
 
     @Override
     public Map<String, Item> listarItem() {
-        return itemBusiness.listarItem();
+        return itemBusiness.listar();
     }
 
     @Override
     public Map<String, Item> listarItensDisponiveis() {
-        return itemBusiness.listarItensDisponiveis();
+        return itemBusiness.listarPorStatus("DISPONIVEL");
     }
 
     @Override
     public Map<String, Item> listarItemPorCategoria(Categoria categoria) {
-        if (categoria == null) throw new RuntimeException("Categoria informada inválida para filtragem.");
-        return itemBusiness.listarItemPorCategoria(categoria);
+        return itemBusiness.listarPorCategoria(categoria);
     }
 
     @Override
     public Map<String, Item> listarItemPorStatus(String status) {
-        if (status == null || status.trim().isEmpty()) throw new RuntimeException("Status informado inválido para filtragem.");
-        return itemBusiness.listarItemPorStatus(status);
+        return itemBusiness.listarPorStatus(status);
     }
 
     @Override
     public Map<String, Item> listarItemPorFornecedor(Fornecedor fornecedor) {
-        if (fornecedor == null) throw new RuntimeException("Fornecedor informado inválido para filtragem.");
-        return itemBusiness.listarItemPorFornecedor(fornecedor);
+        return itemBusiness.listarPorFornecedor(fornecedor);
     }
 
     @Override
     public void atualizarItem(Item item) {
-        if (item == null) throw new RuntimeException("Não é possível atualizar um item nulo.");
-        itemBusiness.atualizarItem(item);
+        Item existente = itemBusiness.buscar(item.getId());
+        if (!existente.getStatus().equals(item.getStatus())) {
+            throw new RuntimeException("Status do item só pode ser alterado através de aluguel ou devolução.");
+        }
+        itemBusiness.atualizar(item);
     }
 
     @Override
     public void deletarItem(String id) {
-        if (id == null || id.trim().isEmpty()) throw new RuntimeException("ID inválido para deleção de item.");
-        itemBusiness.deletarItem(id);
+        itemBusiness.deletar(id);
     }
 
     /* =========================================================================
@@ -287,5 +285,29 @@ public class LojaFacade implements ILojaFacade{
     public void deletarMulta(String id) {
         if (id == null || id.trim().isEmpty()) throw new RuntimeException("ID inválido para deleção de multa.");
         multaBusiness.deletarMulta(id); // Mapeado no Business como "deletarMulta"
+    }
+
+    public void resolverDependencias() {
+        for (Item item : itemBusiness.listar().values()) {
+            Categoria categoria = categoriaBusiness.buscar(item.getCategoria().getId());
+            Fornecedor fornecedor = fornecedorBusiness.buscar(item.getFornecedor().getId());
+            item.setCategoria(categoria);
+            item.setFornecedor(fornecedor);
+            itemBusiness.atualizar(item);
+        }
+
+        for (ContratoAluguel contrato : contratoBusiness.listar().values()) {
+            Cliente cliente = (Cliente) usuarioBusiness.buscar(contrato.getCliente().getId());
+            Item item = itemBusiness.buscar(contrato.getItem().getId());
+            contrato.setCliente(cliente);
+            contrato.setItem(item);
+            contratoBusiness.atualizar(contrato);
+        }
+
+        for (Multa multa : multaBusiness.listar().values()) {
+            ContratoAluguel contrato = contratoBusiness.buscar(multa.getContrato().getId());
+            multa.setContrato(contrato);
+            multaBusiness.atualizar(multa);
+        }
     }
 }
