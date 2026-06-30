@@ -69,7 +69,7 @@ public class Multa {
     public void setValorTotal(BigDecimal valorTotal) {
         this.valorTotal = valorTotal;
     }
-    public void setDiasAtras(int diasAtraso){
+    public void setDiasAtraso(int diasAtraso){
         this.diasAtraso = diasAtraso;
     }
     public void setStatus(String status){

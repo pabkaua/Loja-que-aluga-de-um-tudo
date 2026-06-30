@@ -1,7 +1,6 @@
 package com.loja.business;
 
 import com.loja.model.ContratoAluguel;
-import com.loja.model.Item;
 import com.loja.model.Multa;
 import com.loja.repositories.interfaces.IMultaRepository;
 import com.loja.business.interfaces.IMultaBusiness;
