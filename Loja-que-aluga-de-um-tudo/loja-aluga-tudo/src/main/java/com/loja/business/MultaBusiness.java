@@ -1,6 +1,7 @@
 package com.loja.business;
 
 import com.loja.model.ContratoAluguel;
+import com.loja.model.Item;
 import com.loja.model.Multa;
 import com.loja.repositories.interfaces.IMultaRepository;
 import com.loja.business.interfaces.IMultaBusiness;
@@ -76,23 +77,6 @@ public class MultaBusiness implements IMultaBusiness{
     }
 
     @Override
-    public Map<String, Multa> listar() {
-        return multaRepository.listar();
-    }
-
-    @Override
-    public void deletarMulta(String id) {
-        if (id == null || id.trim().isEmpty()) {
-            throw new RuntimeException("ID inválido para exclusão da multa.");
-        }
-        
-        boolean deletado = multaRepository.deletar(id);
-        
-        if (!deletado) {
-            throw new RuntimeException("Não foi possível deletar: Multa não encontrada com o ID: " + id);
-        }
-    }
-
     public BigDecimal calcularAtraso(ContratoAluguel contrato){
         if (contrato == null){
             return BigDecimal.ZERO;
@@ -127,5 +111,44 @@ public class MultaBusiness implements IMultaBusiness{
         }
 
         return false; 
+    }
+
+    @Override
+    public Map<String, Multa> listar() {
+        return multaRepository.listar();
+    }
+
+    @Override
+    public Multa buscar(String Id){
+        if (Id == null || Id.trim().isEmpty()) {
+            throw new RuntimeException("ID fornecido é inválido para busca.");
+        }
+        Multa multa = multaRepository.buscar(Id);
+        if(multa == null){
+            throw new RuntimeException("Multa não encontrada para o Id: " + Id);
+        }
+        return multa;
+    }
+
+    @Override
+    public void atualizar(Multa multa){
+        if (multa == null){
+            throw new RuntimeException("Multa inválida para atualização!");
+        }
+        this.buscar(multa.getId());
+        multaRepository.atualizar(multa);
+    }
+
+    @Override
+    public void deletarMulta(String id) {
+        if (id == null || id.trim().isEmpty()) {
+            throw new RuntimeException("ID inválido para exclusão da multa.");
+        }
+        
+        boolean deletado = multaRepository.deletar(id);
+        
+        if (!deletado) {
+            throw new RuntimeException("Não foi possível deletar: Multa não encontrada com o ID: " + id);
+        }
     }
 }
