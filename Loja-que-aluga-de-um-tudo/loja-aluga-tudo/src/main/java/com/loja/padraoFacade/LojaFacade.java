@@ -49,58 +49,59 @@ public class LojaFacade implements ILojaFacade{
     /* =========================================================================
      * 2. USUÁRIO (CLIENTE / FUNCIONÁRIO / ADM)
      * ========================================================================= */
-
     @Override
     public void cadastrarCliente(Cliente cliente) {
         if (cliente == null) throw new RuntimeException("Não é possível cadastrar um cliente nulo.");
-        usuarioBusiness.cadastrarCliente(cliente);
+        usuarioBusiness.cadastrar(cliente);
     }
 
     @Override
     public void cadastrarFuncionario(Funcionario funcionario) {
-        if (funcionario == null) throw new RuntimeException("Não é possível cadastrar um funcionário nulo.");
-        usuarioBusiness.cadastrarFuncionario(funcionario);
+        if (funcionario == null) throw new RuntimeException("Não é possível cadastrar um funcionário nulo");
+        usuarioBusiness.cadastrar(funcionario);
     }
 
     @Override
     public void cadastrarAdm(Administrador adm) {
-        if (adm == null) throw new RuntimeException("Não é possível cadastrar um administrador nulo.");
-        usuarioBusiness.cadastrarAdm(adm);
+        if (adm == null) throw new RuntimeException("Não é possível cadastrar um administrador nulo");
+        usuarioBusiness.cadastrar(adm);
     }
 
     @Override
     public Usuario buscarUsuario(String id) {
-        if (id == null || id.trim().isEmpty()) throw new RuntimeException("ID inválido para busca de usuário.");
-        return usuarioBusiness.buscarUsuario(id);
+        if (id == null || id.trim().isEmpty()) throw new RuntimeException("ID inválido");
+        return usuarioBusiness.buscarPorId(id);
     }
 
     @Override
     public Usuario autenticarUsuario(String email, String senha) {
-        if (email == null || senha == null) throw new RuntimeException("Credenciais não podem ser nulas.");
-        return usuarioBusiness.autenticarUsuario(email, senha);
+        if (email == null || senha == null) throw new RuntimeException("Email ou senha não podem ser nulas");
+        return usuarioBusiness.autenticar(email, senha);
     }
 
     @Override
     public Map<String, Usuario> listarUsuario() {
-        return usuarioBusiness.listarUsuario();
+        return usuarioBusiness.listar();
     }
 
     @Override
     public Map<String, Usuario> listarUsuarioPorPerfil(String perfil) {
-        if (perfil == null || perfil.trim().isEmpty()) throw new RuntimeException("Perfil de busca inválido.");
-        return usuarioBusiness.listarUsuarioPorPerfil(perfil);
+        if (perfil == null || perfil.trim().isEmpty()) throw new RuntimeException("Perfil inválido");
+        return usuarioBusiness.listarPorPerfil(perfil);
     }
 
     @Override
-    public void atualizarUsuario(Usuario usuario) {
-        if (usuario == null) throw new RuntimeException("Não é possível atualizar um usuário nulo.");
-        usuarioBusiness.atualizarUsuario(usuario);
+    public void atualizarUsuario(String id, Usuario usuario) {
+        if (usuario == null) throw new RuntimeException("Não é possível atualizar um usuário nulo");
+        usuarioBusiness.atualizar(id, usuario);
     }
 
     @Override
     public void desativarUsuario(String id) {
-        if (id == null || id.trim().isEmpty()) throw new RuntimeException("ID inválido para desativação.");
-        usuarioBusiness.desativarUsuario(id);
+        if (id == null || id.trim().isEmpty()) throw new RuntimeException("ID inválido");
+        Usuario usuario = usuarioBusiness.buscarPorId(id);
+        usuario.setAtivo(false);
+        usuarioBusiness.atualizar(id, usuario);
     }
 
     /* =========================================================================

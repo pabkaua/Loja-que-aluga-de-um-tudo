@@ -18,7 +18,7 @@ public interface ILojaFacade {
     public Usuario autenticarUsuario(String email, String senha);
     public Map<String, Usuario> listarUsuario();
     public Map<String, Usuario> listarUsuarioPorPerfil(String perfil);
-    public void atualizarUsuario(Usuario usuario);
+    public void atualizarUsuario(String id, Usuario usuario);
     public void desativarUsuario(String id);
 
     // contrato
