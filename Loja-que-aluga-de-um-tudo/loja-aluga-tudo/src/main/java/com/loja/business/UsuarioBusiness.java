@@ -51,10 +51,10 @@ public class UsuarioBusiness implements IUsuarioBusiness {
     }
 
     @Override
-    public void atualizar(String id, Usuario dados) {
-        Usuario existente = usuarioRepository.buscar(id);
+    public void atualizar(Usuario dados) {
+        Usuario existente = usuarioRepository.buscar(dados.getId());
         if (existente == null) {
-            throw new RuntimeException("Usuário não encontrado: " + id);
+            throw new RuntimeException("Usuário não encontrado");
         }
         existente.setNome(dados.getNome());
         existente.setLogin(dados.getLogin());

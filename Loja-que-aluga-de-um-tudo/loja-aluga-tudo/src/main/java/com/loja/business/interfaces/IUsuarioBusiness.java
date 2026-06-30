@@ -8,7 +8,7 @@ public interface IUsuarioBusiness {
 
     void deletar(String id);
 
-    void atualizar(String id, Usuario usuario);
+    void atualizar(Usuario usuario);
 
     Map<String, Usuario> listar();
 
