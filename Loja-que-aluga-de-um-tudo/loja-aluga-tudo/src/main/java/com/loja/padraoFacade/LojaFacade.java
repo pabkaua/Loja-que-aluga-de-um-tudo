@@ -231,31 +231,27 @@ public class LojaFacade implements ILojaFacade{
 
     @Override
     public void cadastrarFornecedor(Fornecedor f) {
-        if (f == null) throw new RuntimeException("Não é possível cadastrar um fornecedor nulo.");
-        fornecedorBusiness.cadastrarFornecedor(f);
+        fornecedorBusiness.cadastrar(f);
     }
 
     @Override
     public Fornecedor buscarFornecedor(String id) {
-        if (id == null || id.trim().isEmpty()) throw new RuntimeException("ID inválido para busca de fornecedor.");
-        return fornecedorBusiness.buscarFornecedor(id);
+        return fornecedorBusiness.buscar(id);
     }
 
     @Override
     public void atualizarFornecedor(Fornecedor fornecedor) {
-        if (fornecedor == null) throw new RuntimeException("Não é possível atualizar um fornecedor nulo.");
-        fornecedorBusiness.atualizarFornecedor(fornecedor);
+        fornecedorBusiness.atualizar(fornecedor);
     }
 
     @Override
     public Map<String, Fornecedor> listarFornecedor() {
-        return fornecedorBusiness.listarFornecedor();
+        return fornecedorBusiness.listar();
     }
 
     @Override
     public void deletarFornecedor(String id) {
-        if (id == null || id.trim().isEmpty()) throw new RuntimeException("ID inválido para exclusão de fornecedor.");
-        fornecedorBusiness.deletarFornecedor(id);
+        fornecedorBusiness.deletar(id);
     }
 
     /* =========================================================================
