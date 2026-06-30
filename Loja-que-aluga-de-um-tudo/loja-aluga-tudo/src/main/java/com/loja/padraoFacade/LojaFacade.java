@@ -198,31 +198,27 @@ public class LojaFacade implements ILojaFacade{
 
     @Override
     public void cadastrarCategoria(Categoria c) {
-        if (c == null) throw new RuntimeException("Não é possível cadastrar uma categoria nula.");
-        categoriaBusiness.cadastrarCategoria(c);
+        categoriaBusiness.cadastrar(c);
     }
 
     @Override
     public Categoria buscarCategoria(String id) {
-        if (id == null || id.trim().isEmpty()) throw new RuntimeException("ID inválido para busca de categoria.");
-        return categoriaBusiness.buscarCategoria(id);
+        return categoriaBusiness.buscar(id);
     }
 
     @Override
     public void atualizarCategoria(Categoria categoria) {
-        if (categoria == null) throw new RuntimeException("Não é possível atualizar uma categoria nula.");
-        categoriaBusiness.atualizarCategoria(categoria);
+        categoriaBusiness.atualizar(categoria);
     }
 
     @Override
     public Map<String, Categoria> listarCategoria() {
-        return categoriaBusiness.listarCategoria();
+        return categoriaBusiness.listar();
     }
 
     @Override
     public void deletarCategoria(String id) {
-        if (id == null || id.trim().isEmpty()) throw new RuntimeException("ID inválido para exclusão de categoria.");
-        categoriaBusiness.deletarCategoria(id);
+        categoriaBusiness.deletar(id);
     }
 
     /* =========================================================================
