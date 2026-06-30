@@ -36,15 +36,65 @@ public class LojaFacade implements ILojaFacade{
 
     @Override
     public String gerarRelatorioItensAlugados() {
-        return contratoBusiness.gerarRelatorioItensAlugados();
+        Map<String, ContratoAluguel> ativos = contratoBusiness.listarAtivos();
+
+        if (ativos.isEmpty()) {
+            return "Nenhum item alugado no momento.";
+        }
+
+        LocalDate hoje = LocalDate.now();
+        String relatorio = "=== ITENS ALUGADOS: " + hoje + " ===\n\n";
+
+        for (ContratoAluguel c : ativos.values()) {
+            boolean emAtraso = hoje.isAfter(c.getDataPrevDevolucao());
+            relatorio += "Contrato : " + c.getId() + "\n";
+            relatorio += "Item     : " + c.getItem().getNome() + "\n";
+            relatorio += "Cliente  : " + c.getCliente().getNome() + "\n";
+            relatorio += "Retirada : " + c.getDataRetirada() + "\n";
+            relatorio += "Prev Dev.: " + c.getDataPrevDevolucao();
+            if (emAtraso) relatorio += "  *** EM ATRASO ***";
+            relatorio += "\n\n";
+        }
+
+        long atrasados = ativos.values().stream()
+                .filter(c -> hoje.isAfter(c.getDataPrevDevolucao()))
+                .count();
+
+        relatorio += "Total alugados: " + ativos.size() + " | Em atraso: " + atrasados + "\n";
+
+        return relatorio;
     }
 
     @Override
     public String gerarRelatorioFaturamento(LocalDate inicio, LocalDate fim) {
         if (inicio == null || fim == null || inicio.isAfter(fim)) {
-            throw new RuntimeException("Intervalo de datas inválido para geração de relatório de faturamento.");
+            throw new IllegalArgumentException("Datas inválidas para geração de relatório de faturamento.");
         }
-        return contratoBusiness.gerarRelatorioFaturamento(inicio, fim);
+
+        double totalAlugueis = contratoBusiness.listar().values().stream()
+                .filter(
+                        c -> c.getStatus().equalsIgnoreCase("ENCERRADO")
+                        && c.getDataEfetivaDevolucao() != null
+                        && !c.getDataEfetivaDevolucao().isBefore(inicio)
+                        && !c.getDataEfetivaDevolucao().isAfter(fim))
+                .mapToDouble(ContratoAluguel::getValorTotal)
+                .sum();
+
+        double totalMultas = multaBusiness.listar().values().stream()
+                .filter(m -> m.getStatus().equalsIgnoreCase("QUITADA")
+                        && m.getContrato().getDataEfetivaDevolucao() != null
+                        && !m.getContrato().getDataEfetivaDevolucao().isBefore(inicio)
+                        && !m.getContrato().getDataEfetivaDevolucao().isAfter(fim))
+                .mapToDouble(m -> m.getValorTotal().doubleValue())
+                .sum();
+
+        String relatorio = "=== RELATÓRIO DE FATURAMENTO ===\n";
+        relatorio += "Período: " + inicio + " a " + fim + "\n\n";
+        relatorio += String.format("Receita com aluguéis : R$ %.2f%n", totalAlugueis);
+        relatorio += String.format("Receita com multas   : R$ %.2f%n", totalMultas);
+        relatorio += String.format("TOTAL                : R$ %.2f%n", totalAlugueis + totalMultas);
+
+        return relatorio;
     }
 
     /* =========================================================================
