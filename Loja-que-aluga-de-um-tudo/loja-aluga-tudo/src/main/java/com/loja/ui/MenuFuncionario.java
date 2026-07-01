@@ -106,6 +106,9 @@ public class MenuFuncionario {
         try {
             ContratoAluguel contrato = facade.processarDevolucao(contratoId);
             System.out.println("Devolução processada com sucesso! Contrato ID: " + contrato.getId() + " finalizado.");
+            if (facade.possuiMultaPendente(contrato.getCliente().getId())) {
+                System.out.println("Atenção: devolução em atraso, multa aplicada ao cliente.");
+            }
         } catch (RuntimeException e) {
             System.out.println("Erro ao processar encerramento de contrato: " + e.getMessage());
         }
