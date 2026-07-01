@@ -129,7 +129,7 @@ class UsuarioBusinessTeste {
     void atualizar_deveAlterarDados_quandoUsuarioExiste() {
         business.cadastrar(new Cliente("1", "João", "joao@email.com", "123"));
 
-        business.atualizar("1", new Cliente("1", "João Novo", "novo@email.com", "456"));
+        business.atualizar(new Cliente("1", "João Novo", "novo@email.com", "456"));
 
         Usuario atualizado = repositorio.buscar("1");
         assertEquals("João Novo", atualizado.getNome());
@@ -141,7 +141,7 @@ class UsuarioBusinessTeste {
     @DisplayName("atualizar: deve lançar exceção quando usuário não existe")
     void atualizar_deveLancarExcecao_quandoUsuarioNaoExiste() {
         assertThrows(RuntimeException.class,
-                () -> business.atualizar("99", new Cliente("99", "X", "x@x.com", "x")));
+                () -> business.atualizar(new Cliente("99", "X", "x@x.com", "x")));
     }
 
     @Test
