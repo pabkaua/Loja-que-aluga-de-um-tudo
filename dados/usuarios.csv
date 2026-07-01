@@ -1,0 +1,3 @@
+id;nome;login;senha;perfil;ativo
+USR002;FUNCIONARIO;funcionario;123;FUNCIONARIO;true
+USR001;JACKSON;cliente;123;CLIENTE;false
