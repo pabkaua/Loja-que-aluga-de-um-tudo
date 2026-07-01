@@ -32,8 +32,9 @@ class ContratoBusinessTeste {
         contratoRepo = new ContratoRepositoryFake();
         itemRepo = new ItemRepositoryFake();
         usuarioRepo = new UsuarioRepositoryFake();
+        categoriaRepo = new CategoriaRepositoryFake();
 
-        ItemBusiness itemBusiness = new ItemBusiness(itemRepo);
+        ItemBusiness itemBusiness = new ItemBusiness(itemRepo, categoriaRepo);
         UsuarioBusiness usuarioBusiness = new UsuarioBusiness(usuarioRepo);
         business = new ContratoBusiness(contratoRepo, itemBusiness, usuarioBusiness);
 
