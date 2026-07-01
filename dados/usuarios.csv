@@ -1,3 +1,3 @@
-id;nome;login;senha;perfil;ativo
-USR002;FUNCIONARIO;funcionario;123;FUNCIONARIO;true
-USR001;JACKSON;cliente;123;CLIENTE;false
+id;nome;login;senha;perfil;ativo;campoExtra1;campoExtra2
+USR002;FUNCIONARIO;funcionario;123;FUNCIONARIO;true;Geral;
+USR001;JACKSON;cliente;123;CLIENTE;false;false;

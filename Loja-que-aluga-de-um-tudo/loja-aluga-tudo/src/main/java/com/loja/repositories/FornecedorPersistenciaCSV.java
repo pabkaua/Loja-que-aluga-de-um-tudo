@@ -29,12 +29,12 @@ public class FornecedorPersistenciaCSV implements IFornecedorRepository {
 
     @Override
     public void salvar(Fornecedor fornecedor) {
-        fornecedores.put(fornecedor.getId(), fornecedor);
+        fornecedores.put(fornecedor.getId().toUpperCase(), fornecedor);
     }
 
     @Override
     public Fornecedor buscar(String id) {
-        return fornecedores.get(id);
+        return fornecedores.get(id.toUpperCase());
     }
 
     @Override
@@ -74,7 +74,7 @@ public class FornecedorPersistenciaCSV implements IFornecedorRepository {
                 String[] dados = linha.split(";");
 
                 if (dados.length >= 5){
-                    String id = dados[0];
+                    String id = dados[0].toUpperCase();
                     String nome = dados[1];
                     String cnpj = dados[2];
                     String telefone = dados[3];
@@ -98,7 +98,7 @@ public class FornecedorPersistenciaCSV implements IFornecedorRepository {
             escritor.newLine();
 
             for(Fornecedor fornecedor : this.fornecedores.values()){
-                String linha = fornecedor.getId() + ";" +
+                String linha = fornecedor.getId().toUpperCase() + ";" +
                                 fornecedor.getNome() + ";" +
                                 fornecedor.getCnpj() + ";" +
                                 fornecedor.getTelefone() + ";" +

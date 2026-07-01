@@ -1,1 +1,2 @@
-id;clienteId;itemId;dataRetirada;dataPrevDevolucao;dataEfetivaDevolucao;valorTotal;status;historico90cf5ee3-64ea-4b8a-858c-284b8487187f;USR001;ITM001;2026-01-01;2026-12-31;null;54600.0;ATIVO;false;
+id;clienteId;itemId;dataRetirada;dataPrevDevolucao;dataEfetivaDevolucao;valorTotal;status;historico
+3fee2c5b-5fa0-4fc2-9dd5-ee7a98ef5721;USR001;ITM001;31/01/2026;31/07/2026;;27150.0;ATIVO;false;

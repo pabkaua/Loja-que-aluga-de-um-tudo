@@ -29,13 +29,13 @@ public class CategoriaPersistenciaCSV implements ICategoriaRepository {
     // adiciona o objeto com sua chave (seu id)
     @Override
     public void salvar(Categoria categoria) {
-        categorias.put(categoria.getId(), categoria);
+        categorias.put(categoria.getId().toUpperCase(), categoria);
     }
 
     // procura a chave id no hashmap, retorna null caso não encontrar
     @Override
     public Categoria buscar(String id) {
-        return categorias.get(id);
+        return categorias.get(id.toUpperCase());
     }
 
     // retorna o hashmap completo. obs: .unmodifiablemap() para evitar acessos por referência
@@ -80,7 +80,7 @@ public class CategoriaPersistenciaCSV implements ICategoriaRepository {
                 String[] dados = linha.split(";");
 
                 if (dados.length >= 3){
-                    String id = dados[0];
+                    String id = dados[0].toUpperCase();
                     String nome = dados[1];
                     boolean historico = Boolean.parseBoolean(dados[2]);
 
@@ -114,7 +114,7 @@ public class CategoriaPersistenciaCSV implements ICategoriaRepository {
             escritor.newLine();
 
             for(Categoria categoria : this.categorias.values()){
-                String linha = categoria.getId() + ";" +
+                String linha = categoria.getId().toUpperCase() + ";" +
                         categoria.getNome() + ";" +
                         categoria.hasHistorico();
                 escritor.write(linha);
