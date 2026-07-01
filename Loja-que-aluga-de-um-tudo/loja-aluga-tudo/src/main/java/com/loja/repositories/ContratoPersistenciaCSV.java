@@ -7,6 +7,7 @@
 
     import java.io.*;
     import java.time.LocalDate;
+    import java.time.format.DateTimeFormatter;
     import java.util.Collections;
     import java.util.HashMap;
     import java.util.Map;
@@ -86,9 +87,12 @@
                         String id = dados[0];
                         String clienteId = dados[1];
                         String itemId = dados[2];
-                        LocalDate dataRetirada = LocalDate.parse(dados[3]);
-                        LocalDate dataPrevDevolucao = LocalDate.parse(dados[4]);
-                        LocalDate dataEfetivaDevolucao = dados[5].isBlank() ? null : LocalDate.parse(dados[5]);
+
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+                        LocalDate dataRetirada = LocalDate.parse(dados[3], formatter);
+                        LocalDate dataPrevDevolucao = LocalDate.parse(dados[4], formatter);
+                        LocalDate dataEfetivaDevolucao = dados[5].isBlank() ? null : LocalDate.parse(dados[5], formatter);
                         double valorTotal = Double.parseDouble(dados[6]);
                         String status = dados[7];
                         boolean historico = Boolean.parseBoolean(dados[8]);
@@ -117,12 +121,12 @@
         @Override
         public void salvarDados() {
             try(BufferedWriter escritor = new BufferedWriter(new FileWriter(this.caminhoArquivo))){
-                escritor.write("id;cliente;item;dataRetirada;dataPrevDevolucao;dataEfetivaDevolucao;valorTotal;status;historico");
+                escritor.write("id;clienteId;itemId;dataRetirada;dataPrevDevolucao;dataEfetivaDevolucao;valorTotal;status;historico");
 
                 for (ContratoAluguel contrato : this.contratos.values()) {
                     String linhas = contrato.getId() + ";"
-                            + contrato.getCliente() + ";"
-                            +contrato.getItem() + ";"
+                            + contrato.getCliente().getId() + ";"
+                            +contrato.getItem().getId() + ";"
                             + contrato.getDataRetirada() + ";"
                             + contrato.getDataPrevDevolucao() + ";"
                             + contrato.getDataEfetivaDevolucao() + ";"

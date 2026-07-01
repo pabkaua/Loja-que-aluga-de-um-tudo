@@ -1,0 +1,2 @@
+id;nome;taxaDiaria;valorReposicao;status;categoriaId;fornecedorId;historico
+ITM001;XBOX;150.00;2000;ALUGADO;CAT001;FOR001;true
