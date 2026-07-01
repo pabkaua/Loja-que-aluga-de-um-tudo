@@ -1,9 +1,7 @@
 package com.loja.business;
 
 import com.loja.model.*;
-import com.loja.repositories.ContratoRepositoryFake;
-import com.loja.repositories.ItemRepositoryFake;
-import com.loja.repositories.UsuarioRepositoryFake;
+import com.loja.repositories.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,6 +17,8 @@ class ContratoBusinessTeste {
     private ContratoRepositoryFake contratoRepo;
     private ItemRepositoryFake itemRepo;
     private UsuarioRepositoryFake usuarioRepo;
+    private CategoriaRepositoryFake categoriaRepo;
+    private FornecedorRepositoryFake fornecedorRepo;
 
     private ContratoBusiness business;
 
@@ -33,8 +33,9 @@ class ContratoBusinessTeste {
         itemRepo = new ItemRepositoryFake();
         usuarioRepo = new UsuarioRepositoryFake();
         categoriaRepo = new CategoriaRepositoryFake();
+        fornecedorRepo = new FornecedorRepositoryFake();
 
-        ItemBusiness itemBusiness = new ItemBusiness(itemRepo, categoriaRepo);
+        ItemBusiness itemBusiness = new ItemBusiness(itemRepo, categoriaRepo, fornecedorRepo);
         UsuarioBusiness usuarioBusiness = new UsuarioBusiness(usuarioRepo);
         business = new ContratoBusiness(contratoRepo, itemBusiness, usuarioBusiness);
 
