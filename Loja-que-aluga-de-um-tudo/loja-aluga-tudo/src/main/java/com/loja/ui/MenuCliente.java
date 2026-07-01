@@ -14,10 +14,10 @@ public class MenuCliente {
     private final Cliente usuarioLogado;
     private final Scanner scanner;
 
-    public MenuCliente(ILojaFacade facade, Cliente usuarioLogado) {
+    public MenuCliente(ILojaFacade facade, Cliente usuarioLogado, Scanner scanner) {
         this.facade = facade;
         this.usuarioLogado = usuarioLogado;
-        this.scanner = new Scanner(System.in);
+        this.scanner = scanner;
     }
 
     public void exibir() {
@@ -30,20 +30,19 @@ public class MenuCliente {
             System.out.println("0 - Sair");
             System.out.print("Escolha uma opção: ");
 
-            String opcao = lerEntrada("");
+            String opcao = scanner.nextLine();
 
-            if (opcao.equals("1")) {
-                verItensDisponiveis();
-            } else if (opcao.equals("2")) {
-                verMeusAlugueis();
-            } else if (opcao.equals("3")) {
-                verMultasPendentes();
-            } else if (opcao.equals("0")) {
-                System.out.println("Saindo...");
-                logado = false;
-            } else {
-                System.out.println("Opção inválida!");
+            switch (opcao) {
+                case "1" -> verItensDisponiveis();
+                case "2" -> verMeusAlugueis();
+                case "3" -> verMultasPendentes();
+                case "0" -> {
+                    System.out.println("Saindo...");
+                    logado = false;
+                }
+                default -> System.out.println("Opção inválida!");
             }
+
         }
     }
 
@@ -55,7 +54,7 @@ public class MenuCliente {
                 System.out.println("Não há itens disponíveis para aluguel no momento.");
             } else {
                 for (Item item : itens.values()) {
-                    System.out.println("ID: " + item.getId() + " | Nome: " + item.getNome());
+                    System.out.println("ID: " + item.getId() + " | Nome: " + item.getNome() + " | Valor Diário: " + item.getTaxaDiaria());
                 }
             }
         } catch (RuntimeException e) {
@@ -95,12 +94,5 @@ public class MenuCliente {
         } catch (RuntimeException e) {
             System.out.println("Erro ao processar verificação de multas: " + e.getMessage());
         }
-    }
-
-    public String lerEntrada(String mensagem) {
-        if (!mensagem.isEmpty()) {
-            System.out.print(mensagem);
-        }
-        return scanner.nextLine();
     }
 }
