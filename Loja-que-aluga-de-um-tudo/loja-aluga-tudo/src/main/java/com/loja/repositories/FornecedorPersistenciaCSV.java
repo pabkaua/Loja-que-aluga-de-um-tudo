@@ -44,15 +44,19 @@ public class FornecedorPersistenciaCSV implements IFornecedorRepository {
 
     @Override
     public boolean atualizar(Fornecedor fornecedor) {
-        if (this.fornecedores.containsKey(fornecedor.getId())) {
-            fornecedores.put(fornecedor.getId(), fornecedor);
-            return true;
-        }
-        return false;
+    String id = fornecedor.getId().toUpperCase();
+
+    if (fornecedores.containsKey(id)) {
+        fornecedores.put(id, fornecedor);
+        return true;
+    }
+
+    return false;
     }
 
     @Override
     public boolean deletar(String id) {
+        id = id.toUpperCase();
         if (this.fornecedores.containsKey(id)) {
             fornecedores.remove(id);
             return true;
