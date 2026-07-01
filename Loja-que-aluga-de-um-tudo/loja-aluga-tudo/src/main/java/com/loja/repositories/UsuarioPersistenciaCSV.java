@@ -127,17 +127,31 @@ public class UsuarioPersistenciaCSV implements IUsuarioRepository {
     @Override
     public void salvarDados() {
         try (BufferedWriter escritor = new BufferedWriter(new FileWriter(caminhoArquivo))) {
-            escritor.write("id;nome;login;senha;perfil;ativo");
+            escritor.write("id;nome;login;senha;perfil;ativo;campoExtra1;campoExtra2");
             escritor.newLine();
 
             for (Usuario usuario : usuarios.values()) {
+                String campoExtra1 = "";
+                String campoExtra2 = "";
+
+                if (usuario instanceof Administrador administrador) {
+                    campoExtra1 = String.valueOf(administrador.getNivelAcesso());
+                    campoExtra2 = administrador.getDepartamento();
+                } else if (usuario instanceof Funcionario funcionario) {
+                    campoExtra1 = funcionario.getCargo();
+                } else if (usuario instanceof Cliente cliente) {
+                    campoExtra1 = String.valueOf(cliente.isInadimplente());
+                }
+
                 String linha =
                         usuario.getId() + ";" +
                         usuario.getNome() + ";" +
                         usuario.getLogin() + ";" +
                         usuario.getSenha() + ";" +
                         usuario.getPerfil() + ";" +
-                        usuario.isAtivo();
+                        usuario.isAtivo() + ";" +
+                        campoExtra1 + ";" +
+                        campoExtra2;
                 escritor.write(linha);
                 escritor.newLine();
             }
