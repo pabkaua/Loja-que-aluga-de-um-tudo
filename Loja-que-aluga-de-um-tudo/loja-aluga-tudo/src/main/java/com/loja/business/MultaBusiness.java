@@ -150,4 +150,8 @@ public class MultaBusiness implements IMultaBusiness{
             throw new RuntimeException("Não foi possível deletar: Multa não encontrada com o ID: " + id);
         }
     }
+
+    public void salvarDados(){
+        this.multaRepository.salvarDados();
+    }
 }

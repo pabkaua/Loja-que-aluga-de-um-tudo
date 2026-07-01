@@ -337,6 +337,10 @@ public class LojaFacade implements ILojaFacade{
         multaBusiness.deletarMulta(id); // Mapeado no Business como "deletarMulta"
     }
 
+    /* =========================================================================
+     * 8. GERAIS
+     * ========================================================================= */
+
     public void resolverDependencias() {
         for (Item item : itemBusiness.listar().values()) {
             Categoria categoria = categoriaBusiness.buscar(item.getCategoria().getId());
@@ -359,5 +363,25 @@ public class LojaFacade implements ILojaFacade{
             multa.setContrato(contrato);
             multaBusiness.atualizar(multa);
         }
+    }
+
+    public void salvarTudo() {
+        try { usuarioBusiness.salvarDados(); }
+        catch (RuntimeException e) { System.out.println("Erro ao salvar usuários: " + e.getMessage()); }
+
+        try { itemBusiness.salvarDados(); }
+        catch (RuntimeException e) { System.out.println("Erro ao salvar itens: " + e.getMessage()); }
+
+        try { categoriaBusiness.salvarDados(); }
+        catch (RuntimeException e) { System.out.println("Erro ao salvar categorias: " + e.getMessage()); }
+
+        try { fornecedorBusiness.salvarDados(); }
+        catch (RuntimeException e) { System.out.println("Erro ao salvar fornecedores: " + e.getMessage()); }
+
+        try { contratoBusiness.salvarDados(); }
+        catch (RuntimeException e) { System.out.println("Erro ao salvar contratos: " + e.getMessage()); }
+
+        try { multaBusiness.salvarDados(); }
+        catch (RuntimeException e) { System.out.println("Erro ao salvar multas: " + e.getMessage()); }
     }
 }

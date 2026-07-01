@@ -22,4 +22,5 @@ public interface IItemBusiness {
 
     public void deletar(String id);
 
+    public void salvarDados();
 }

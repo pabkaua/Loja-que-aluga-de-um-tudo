@@ -118,4 +118,8 @@ public class ContratoBusiness implements IContratoBusiness {
     public void atualizar(ContratoAluguel contrato) {
         repo.atualizar(contrato);
     }
+
+    public void salvarDados(){
+        this.repo.salvarDados();
+    }
 }

@@ -78,4 +78,8 @@ public class UsuarioBusiness implements IUsuarioBusiness {
         }
         return usuario;
     }
+
+    public void salvarDados(){
+        this.usuarioRepository.salvarDados();
+    }
 }

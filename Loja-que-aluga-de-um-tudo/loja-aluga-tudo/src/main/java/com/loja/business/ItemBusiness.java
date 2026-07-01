@@ -95,4 +95,7 @@ public class ItemBusiness implements IItemBusiness {
         repo.deletar(id);
     };
 
+    public void salvarDados(){
+        this.repo.salvarDados();
+    }
 }

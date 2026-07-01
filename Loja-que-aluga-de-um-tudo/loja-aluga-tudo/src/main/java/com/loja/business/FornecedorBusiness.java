@@ -73,4 +73,8 @@ public class FornecedorBusiness implements IFornecedorBusiness {
         }
         repo.deletar(id);
     }
+
+    public void salvarDados(){
+        this.repo.salvarDados();
+    }
 }

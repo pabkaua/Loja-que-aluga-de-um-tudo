@@ -10,6 +10,7 @@ public interface ILojaFacade {
     public String gerarRelatorioItensAlugados();
     public String gerarRelatorioFaturamento(LocalDate inicio, LocalDate fim);
     public void resolverDependencias();
+    public void salvarTudo();
 
     // usuario
     public void cadastrarCliente(Cliente cliente);

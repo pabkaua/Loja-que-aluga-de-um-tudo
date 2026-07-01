@@ -25,4 +25,6 @@ public interface IMultaBusiness{
     void atualizar(Multa multa);
 
     void deletarMulta(String Id);
+
+    public void salvarDados();
 }

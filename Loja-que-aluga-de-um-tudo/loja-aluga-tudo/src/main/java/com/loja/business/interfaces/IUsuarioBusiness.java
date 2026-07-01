@@ -19,4 +19,6 @@ public interface IUsuarioBusiness {
     Usuario buscarPorId(String id);
 
     Usuario autenticar(String email, String senha);
+
+    public void salvarDados();
 }
