@@ -42,7 +42,7 @@ class FornecedorBusinessTeste {
         RuntimeException exception = assertThrows(
                 RuntimeException.class,
                 () -> business.cadastrar(null)
-        );
+        ); //expressão lambda, chama o método cadastrar com null
 
         assertEquals(
                 "Não foi possivel cadastrar o objeto fornecedor!",
@@ -54,8 +54,7 @@ class FornecedorBusinessTeste {
     void naoDeveCadastrarFornecedorComIdDuplicado() {
         business.cadastrar(criarFornecedor("1", "Fornecedor A"));
 
-        Fornecedor fornecedorDuplicado =
-                criarFornecedor("1", "Fornecedor B");
+        Fornecedor fornecedorDuplicado = criarFornecedor("1", "Fornecedor B");
 
         RuntimeException exception = assertThrows(
                 RuntimeException.class,
@@ -85,8 +84,7 @@ class FornecedorBusinessTeste {
 
     @Test
     void naoDeveCadastrarFornecedorComIdInvalido() {
-        Fornecedor fornecedor =
-                criarFornecedor(" ", "Fornecedor A");
+        Fornecedor fornecedor = criarFornecedor(" ", "Fornecedor A");
 
         RuntimeException exception = assertThrows(
                 RuntimeException.class,
