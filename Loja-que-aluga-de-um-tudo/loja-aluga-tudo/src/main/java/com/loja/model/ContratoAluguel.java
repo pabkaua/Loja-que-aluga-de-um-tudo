@@ -1,5 +1,6 @@
 package com.loja.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class ContratoAluguel {
@@ -9,11 +10,11 @@ public class ContratoAluguel {
     private LocalDate dataRetirada;
     private LocalDate dataPrevDevolucao;
     private LocalDate dataEfetivaDevolucao;
-    private double valorTotal;
+    private BigDecimal valorTotal;
     private String status;
     private Boolean historico;
 
-    public ContratoAluguel(String id, Cliente cliente, Item item, LocalDate dataRetirada, LocalDate dataPrevDevolucao, LocalDate dataEfetivaDevolucao, double valorTotal, String status){
+    public ContratoAluguel(String id, Cliente cliente, Item item, LocalDate dataRetirada, LocalDate dataPrevDevolucao, LocalDate dataEfetivaDevolucao, BigDecimal valorTotal, String status){
         this.id = id;
         this.cliente = cliente;
         this.item = item;
@@ -54,7 +55,7 @@ public class ContratoAluguel {
         return dataEfetivaDevolucao;
     }
 
-    public double getValorTotal() {
+    public BigDecimal getValorTotal() {
         return valorTotal;
     }
 
@@ -91,7 +92,7 @@ public class ContratoAluguel {
         this.dataEfetivaDevolucao = dataEfetivaDevolucao;
     }
 
-    public void setValorTotal(double valorTotal) {
+    public void setValorTotal(BigDecimal valorTotal) {
         this.valorTotal = valorTotal;
     }
 

@@ -4,6 +4,7 @@ import com.loja.padraoFacade.interfaces.ILojaFacade;
 import com.loja.business.interfaces.*;
 import com.loja.model.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Map;
 
@@ -71,28 +72,27 @@ public class LojaFacade implements ILojaFacade{
             throw new IllegalArgumentException("Datas inválidas para geração de relatório de faturamento.");
         }
 
-        double totalAlugueis = contratoBusiness.listar().values().stream()
+        BigDecimal totalAlugueis = contratoBusiness.listar().values().stream()
                 .filter(
                         c -> c.getStatus().equalsIgnoreCase("ENCERRADO")
                         && c.getDataEfetivaDevolucao() != null
                         && !c.getDataEfetivaDevolucao().isBefore(inicio)
                         && !c.getDataEfetivaDevolucao().isAfter(fim))
-                .mapToDouble(ContratoAluguel::getValorTotal)
-                .sum();
+                .map(ContratoAluguel::getValorTotal).reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        double totalMultas = multaBusiness.listar().values().stream()
+        BigDecimal totalMultas = multaBusiness.listar().values().stream()
                 .filter(m -> m.getStatus().equalsIgnoreCase("QUITADA")
                         && m.getContrato().getDataEfetivaDevolucao() != null
                         && !m.getContrato().getDataEfetivaDevolucao().isBefore(inicio)
                         && !m.getContrato().getDataEfetivaDevolucao().isAfter(fim))
-                .mapToDouble(m -> m.getValorTotal().doubleValue())
-                .sum();
+                .map(Multa::getValorTotal)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         String relatorio = "=== RELATÓRIO DE FATURAMENTO ===\n";
         relatorio += "Período: " + inicio + " a " + fim + "\n\n";
         relatorio += String.format("Receita com aluguéis : R$ %.2f%n", totalAlugueis);
         relatorio += String.format("Receita com multas   : R$ %.2f%n", totalMultas);
-        relatorio += String.format("TOTAL                : R$ %.2f%n", totalAlugueis + totalMultas);
+        relatorio += String.format("TOTAL                : R$ %.2f%n", totalAlugueis.add(totalMultas));
 
         return relatorio;
     }

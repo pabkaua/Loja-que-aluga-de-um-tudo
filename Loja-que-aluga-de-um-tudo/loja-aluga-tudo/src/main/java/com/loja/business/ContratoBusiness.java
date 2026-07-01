@@ -8,6 +8,7 @@ import com.loja.model.ContratoAluguel;
 import com.loja.model.Item;
 import com.loja.repositories.interfaces.IContratoRepository;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Map;
@@ -44,7 +45,7 @@ public class ContratoBusiness implements IContratoBusiness {
         }
 
         long dias = java.time.temporal.ChronoUnit.DAYS.between(dataRetirada, dataPrevDevolucao);
-        double valorTotal = item.getTaxaDiaria().doubleValue() * dias;
+        BigDecimal valorTotal = item.getTaxaDiaria().multiply(BigDecimal.valueOf(dias));
 
         ContratoAluguel contrato = new ContratoAluguel(
                 UUID.randomUUID().toString(),

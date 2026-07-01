@@ -6,6 +6,7 @@ import com.loja.model.Item;
 import com.loja.repositories.interfaces.IContratoRepository;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
@@ -93,7 +94,7 @@ public class ContratoPersistenciaCSV implements IContratoRepository {
                     LocalDate dataRetirada = LocalDate.parse(dados[3], formatter);
                     LocalDate dataPrevDevolucao = LocalDate.parse(dados[4], formatter);
                     LocalDate dataEfetivaDevolucao = dados[5].isBlank() ? null : LocalDate.parse(dados[5], formatter);
-                    double valorTotal = Double.parseDouble(dados[6]);
+                    BigDecimal valorTotal = new BigDecimal(dados[6]);
                     String status = dados[7];
                     boolean historico = Boolean.parseBoolean(dados[8]);
 

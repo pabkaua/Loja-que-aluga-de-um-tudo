@@ -71,7 +71,7 @@ class ContratoBusinessTeste {
 
         assertNotNull(contrato);
         assertEquals("ATIVO", contrato.getStatus());
-        assertEquals(250.0, contrato.getValorTotal()); // 50 * 5
+        assertEquals(0, new BigDecimal("250").compareTo(contrato.getValorTotal()));
     }
 
     @Test
