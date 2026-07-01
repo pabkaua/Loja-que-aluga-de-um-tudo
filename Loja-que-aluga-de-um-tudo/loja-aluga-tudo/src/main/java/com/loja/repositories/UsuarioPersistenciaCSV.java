@@ -28,12 +28,12 @@ public class UsuarioPersistenciaCSV implements IUsuarioRepository {
 
     @Override
     public void salvar(Usuario usuario) {
-        usuarios.put(usuario.getId(), usuario);
+        usuarios.put(usuario.getId().toUpperCase(), usuario);
     }
 
     @Override
     public Usuario buscar(String id) {
-        return usuarios.get(id);
+        return usuarios.get(id.toUpperCase());
     }
 
     @Override
@@ -88,7 +88,7 @@ public class UsuarioPersistenciaCSV implements IUsuarioRepository {
                 String[] dados = linha.split(";", -1);
                 if (dados.length < 6) continue;
 
-                String id = dados[0];
+                String id = dados[0].toUpperCase();
                 String nome = dados[1];
                 String login = dados[2];
                 String senha = dados[3];
@@ -144,7 +144,7 @@ public class UsuarioPersistenciaCSV implements IUsuarioRepository {
                 }
 
                 String linha =
-                        usuario.getId() + ";" +
+                        usuario.getId().toUpperCase() + ";" +
                         usuario.getNome() + ";" +
                         usuario.getLogin() + ";" +
                         usuario.getSenha() + ";" +

@@ -33,13 +33,13 @@ public class ItemPersistenciaCSV implements IItemRepository {
     // adiciona o objeto com sua chave (seu id)
     @Override
     public void salvar(Item item) {
-        itens.put(item.getId(), item);
+        itens.put(item.getId().toUpperCase(), item);
     }
 
     // procura a chave id no hashmap, retorna null caso não encontrar
     @Override
     public Item buscar(String id) {
-        return itens.get(id);
+        return itens.get(id.toUpperCase());
     }
 
     // retorna o hashmap completo. obs: .unmodifiablemap() para evitar acessos por referência
@@ -114,7 +114,7 @@ public class ItemPersistenciaCSV implements IItemRepository {
                 String[] dados = linha.split(";");
 
                 if (dados.length >= 8){
-                    String id = dados[0];
+                    String id = dados[0].toUpperCase();
                     String nome = dados[1];
                     BigDecimal taxaDiaria = new BigDecimal(dados[2]);
                     BigDecimal valorReposicao = new BigDecimal(dados[3]);
@@ -128,9 +128,9 @@ public class ItemPersistenciaCSV implements IItemRepository {
                     */
 
                     Categoria categoria = new Categoria();
-                    categoria.setId(dados[5]);
+                    categoria.setId(dados[5].toUpperCase());
                     Fornecedor fornecedor = new Fornecedor();
-                    fornecedor.setId(dados[6]);
+                    fornecedor.setId(dados[6].toUpperCase());
 
                     boolean historico = Boolean.parseBoolean(dados[7]);
 
@@ -164,13 +164,13 @@ public class ItemPersistenciaCSV implements IItemRepository {
             escritor.newLine();
 
             for(Item item : this.itens.values()){
-                String linha = item.getId() + ";" +
+                String linha = item.getId().toUpperCase() + ";" +
                                 item.getNome() + ";" +
                                 item.getTaxaDiaria() + ";" +
                                 item.getValorReposicao() + ";" +
                                 item.getStatus() + ";" +
-                                item.getCategoria().getId() + ";" +
-                                item.getFornecedor().getId() + ";" +
+                                item.getCategoria().getId().toUpperCase() + ";" +
+                                item.getFornecedor().getId().toUpperCase() + ";" +
                                 item.hasHistorico();
                 escritor.write(linha);
                 escritor.newLine();

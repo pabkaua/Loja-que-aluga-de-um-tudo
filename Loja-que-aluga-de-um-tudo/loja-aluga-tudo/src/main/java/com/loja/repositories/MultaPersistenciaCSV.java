@@ -49,13 +49,13 @@ public class MultaPersistenciaCSV implements IMultaRepository {
 
             multa.setId(String.valueOf(maiorId + 1));
         }
-        multas.put(multa.getId(), multa);
-        this.salvarDados(); 
+        multas.put(multa.getId().toUpperCase(), multa);
+        this.salvarDados();
     }
 
     @Override
     public Multa buscar(String id) {
-        return multas.get(id);
+        return multas.get(id.toUpperCase());
     }
 
     @Override
@@ -117,8 +117,8 @@ public class MultaPersistenciaCSV implements IMultaRepository {
                 String[] dados = linha.split(";");
 
                 if (dados.length >= 8) {
-                    String id = dados[0];
-                    String contratoId = dados[1];
+                    String id = dados[0].toUpperCase();
+                    String contratoId = dados[1].toUpperCase();
                     String motivo = dados[2];
                     BigDecimal valorFixo = new BigDecimal(dados[3]);
                     BigDecimal valorDiario = new BigDecimal(dados[4]);
@@ -145,8 +145,8 @@ public class MultaPersistenciaCSV implements IMultaRepository {
             escritor.newLine();
 
             for (Multa multa : this.multas.values()) {
-                String linha = multa.getId() + ";" +
-                               (multa.getContrato() != null ? multa.getContrato().getId() : "null") + ";" +
+                String linha = multa.getId().toUpperCase() + ";" +
+                               (multa.getContrato() != null ? multa.getContrato().getId().toUpperCase() : "null") + ";" +
                                multa.getMotivo() + ";" +
                                multa.getValorFixo() + ";" +
                                multa.getValorDiario() + ";" +
