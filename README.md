@@ -1,6 +1,6 @@
 # Divisão de Responsabilidades da Equipe
 
-## Arthur Dias
+## [Arthur Dias](https://github.com/diasmarthur)
 
 ### CRUD
 
@@ -18,7 +18,7 @@
 
 ---
 
-## Diego Lyra
+## [Diego Lyra](https://github.com/DiegoLyra)
 
 ### CRUD
 
@@ -36,7 +36,7 @@
 * Auxilio no desenvolvimento do Relatório
 
 ---
-## João Victor
+## [João Victor](https://github.com/joaogt01)
 
 ### Configuração Inicial
 
@@ -57,7 +57,7 @@
 * Auxilio no desenvolvimento do Relatório
 ---
 
-## Kaua Pablo
+## [Kaua Pablo](https://github.com/pabkaua)
 
 ### Modelagem
 
@@ -78,7 +78,7 @@
 * Auxilio no desenvolvimento do Relatório
 
 
-## Renan Alves
+## [Renan Alves](https://github.com/renangth)
 
 ### CRUD
 
