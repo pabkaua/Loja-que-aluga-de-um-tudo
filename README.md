@@ -14,6 +14,7 @@
 
 * Auxilio no desenvolvimento do Diagrama UML
 * Auxilio no desenvolvimento do Facade
+* Auxilio no desenvolvimento do Relatório
 
 ---
 
@@ -32,6 +33,7 @@
 * Auxilio no desenvolvimento do Diagrama UML
 * Auxilio no desenvolvimento do Facade
 * Auxilio no desenvolvimento dos Menus
+* Auxilio no desenvolvimento do Relatório
 
 ---
 ## João Victor
@@ -52,6 +54,7 @@
 * Auxilio no desenvolvimento do Diagrama UML
 * Auxilio no desenvolvimento do Facade
 * Gerenciamento fluxo do repositório do github
+* Auxilio no desenvolvimento do Relatório
 ---
 
 ## Kaua Pablo
@@ -72,7 +75,7 @@
 ### Geral
 * Auxilio no desenvolvimento dos Menus
 * Auxilio no desenvolvimento do Facade
-* desenvolvimento de relatórios
+* Auxilio no desenvolvimento do Relatório
 
 
 ## Renan Alves
@@ -89,5 +92,6 @@
 
 * Auxilio no desenvolvimento do Diagrama UML
 * Auxilio no desenvolvimento do Facade
+* Auxilio no desenvolvimento do Relatório
 
 </content>
