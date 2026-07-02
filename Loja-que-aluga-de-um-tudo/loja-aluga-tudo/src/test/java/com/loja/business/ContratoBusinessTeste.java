@@ -57,10 +57,7 @@ class ContratoBusinessTeste {
         itemRepo.salvar(itemAlugado);
     }
 
-    // -------------------------------------------------------------------------
     // registrarAluguel
-    // -------------------------------------------------------------------------
-
     @Test
     @DisplayName("registrarAluguel: deve criar contrato quando cliente e item estão ok")
     void registrarAluguel_deveCriarContrato_quandoDadosValidos() {
@@ -114,10 +111,7 @@ class ContratoBusinessTeste {
         );
     }
 
-    // -------------------------------------------------------------------------
     // processarDevolucao
-    // -------------------------------------------------------------------------
-
     @Test
     @DisplayName("processarDevolucao: deve encerrar contrato e liberar item")
     void processarDevolucao_deveEncerrarContrato_e_liberarItem() {
@@ -149,10 +143,7 @@ class ContratoBusinessTeste {
         );
     }
 
-    // -------------------------------------------------------------------------
     // listar
-    // -------------------------------------------------------------------------
-
     @Test
     @DisplayName("listarAtivos: deve retornar apenas contratos com status ATIVO")
     void listarAtivos_deveRetornarApenasAtivos() {
