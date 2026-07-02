@@ -4,6 +4,7 @@ import com.loja.padraoFacade.interfaces.ILojaFacade;
 import com.loja.business.interfaces.*;
 import com.loja.model.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Map;
 
@@ -173,7 +174,11 @@ public class LojaFacade implements ILojaFacade{
     @Override
     public ContratoAluguel processarDevolucao(String contratoId) {
         if (contratoId == null || contratoId.trim().isEmpty()) throw new RuntimeException("ID inválido para processar devolução.");
-        return contratoBusiness.processarDevolucao(contratoId);
+        ContratoAluguel contrato = contratoBusiness.processarDevolucao(contratoId);
+        if(multaBusiness.calcularAtraso(contrato).compareTo(BigDecimal.ZERO) > 0){
+            multaBusiness.aplicar(contrato);
+        }
+        return contrato;
     }
 
     @Override
