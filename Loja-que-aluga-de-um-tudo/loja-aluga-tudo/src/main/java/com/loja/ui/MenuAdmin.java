@@ -104,7 +104,10 @@ public class MenuAdmin {
                 } else if (listOpt.equals("2")) {
                     System.out.print("Perfil desejado: ");
                     String perfil = scanner.nextLine().toUpperCase();
+                    if(facade.listarUsuarioPorPerfil(perfil).isEmpty()) throw new RuntimeException("Nehum usuário de perfil " + perfil);
                     facade.listarUsuarioPorPerfil(perfil).values().forEach(u -> System.out.println("ID: " + u.getId() + " | Nome: " + u.getNome()));
+                } else {
+                    System.out.println("Digite uma opção válida!");
                 }
 
             }
